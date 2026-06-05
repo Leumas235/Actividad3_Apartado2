@@ -5,8 +5,6 @@ import pandas as pd             # Para gestionar tablas y datos
 from datetime import datetime   # Para utilizar formatos de fechas  
 import pydeck as pdk            # Para mostrar mapas interactivos
 
-pdk.settings.mapbox_api_key = st.secrets["MAPBOX_KEY"]
-
 # Se configura la pagina web completa con el nombre de la pestaña y la funcionalidad del menú About
 st.set_page_config(
     layout="wide", 
