@@ -99,7 +99,7 @@ def mostrar_mapa(df):
         min_zoom=0,
         max_zoom=19,
         tile_size=256,
-        url_template="https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png"
+        url_template="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
     )
 
     # Muestra el Rótulo de la API de la estación al pasar el ratón por encima
