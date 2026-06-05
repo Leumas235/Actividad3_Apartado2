@@ -5,6 +5,8 @@ import pandas as pd             # Para gestionar tablas y datos
 from datetime import datetime   # Para utilizar formatos de fechas  
 import pydeck as pdk            # Para mostrar mapas interactivos
 
+pdk.settings.mapbox_api_key = st.secrets["MAPBOX_KEY"]
+
 # Se configura la pagina web completa con el nombre de la pestaña y la funcionalidad del menú About
 st.set_page_config(
     layout="wide", 
@@ -82,14 +84,24 @@ def mostrar_mapa(df):
     # Centrar el mapa automáticament en el promedio de todos los puntos a mostrar
     midpoint = (df["Latitud"].mean(), df["Longitud"].mean())
 
-    # Pintar los puntos en el mapa
-    layer = pdk.Layer(
+   # Capa de puntos
+    scatter_layer = pdk.Layer(
         "ScatterplotLayer",
         data=df,
         get_position='[Longitud, Latitud]',
         get_radius=200,
         get_color=[0, 122, 255],
         pickable=True,
+    )
+
+    # Capa de mapa base (OpenStreetMap)
+    tile_layer = pdk.Layer(
+        "TileLayer",
+        data=None,
+        min_zoom=0,
+        max_zoom=19,
+        tile_size=256,
+        url_template="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
     )
 
     # Muestra el Rótulo de la API de la estación al pasar el ratón por encima
@@ -108,9 +120,9 @@ def mostrar_mapa(df):
 
     # Muestra el mapa
     st.pydeck_chart(pdk.Deck(
-        map_style="mapbox://styles/mapbox/streets-v11",
+        map_style=None,
         initial_view_state=view_state,
-        layers=[layer],
+        layers=[tile_layer, scatter_layer],
         tooltip=tooltip
     ))
 
